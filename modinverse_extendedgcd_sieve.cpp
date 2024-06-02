@@ -54,7 +54,7 @@ ll modInverse(ll a,ll modulo){
 }
 const ll N=2e5+5;
 ////////////////////////////////////////Seive Algorithm////////////////////////////////////////////////////////////////////////
-vector<bool>Prime(N,1);						//O(Nlog(logN))
+vector<bool>Prime(N,1);						//calculates is_prime from 1 to N in O(Nlog(logN))
 vector<ll>lp(N),hp(N);
 vector<ll> prime_factors;
 vector<ll>divisors[N];
@@ -73,7 +73,7 @@ void sieve(ll N){
             }
         }
     }
-    for(int i=2;i<N;i++){									//O(NlogN)
+    for(int i=2;i<N;i++){        //Calculates divisors of all numbers from 1 to N in O(NlogN) (imp piece of code in reducing time complexity)
         for(int j=i;j<N;j+=i){
             divisors[j].pb(i);
         }
