@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define ll long long 
+#define pb push_back
 ll mod=1e9+7;
 bool is_square(float x){
     if(x>= 0){
