@@ -62,25 +62,76 @@ vector<ll>divisors[N];
  
 void sieve(ll N){ 
     Prime[0]=Prime[1]=false;
-    for(int i=2;i<N;i++){
-        if(Prime[i]==true){
-            lp[i]=hp[i]=i;
-            for(int j=2*i;j<N;j+=i){
-                Prime[j]=false;
-                hp[j]=i;
-                if(lp[j]==0){
-                    lp[j]=i;
-                }
+    for (ll p=2;p*p<=N;p++){
+        if (Prime[p]) {
+            for (ll i =p*p; i<=N;i+=p){
+                Prime[i] = false;
             }
         }
     }
-    for(int i=2;i<N;i++){        //Calculates divisors of all numbers from 1 to N in O(NlogN) (imp piece of code in reducing time complexity)
-        for(int j=i;j<N;j+=i){
+    for(int i=2;i<=N;i++){        //Calculates divisors of all numbers from 1 to N in O(NlogN) (imp piece of code in reducing time complexity)
+        for(int j=i;j<=N;j+=i){
             divisors[j].pb(i);
         }
     }
 }
 
+//PS-The below 2 functions are copied from cp-algorithms.com ,Never tested in a contest yet.
+ll blocksieveing(ll n) {//count no of primes till n in same complexity as SIEVE but space shortened to O(sqrt(n)+S)=O(sqrt(n)+1e4)
+    const ll S = 10000;
+
+    vector<ll> primes;
+    ll nsqrt = sqrt(n);
+    vector<char> is_prime(nsqrt + 2, true);
+    for (int i = 2; i <= nsqrt; i++) {
+        if (is_prime[i]) {
+            primes.push_back(i);
+            for (int j = i * i; j <= nsqrt; j += i)
+                is_prime[j] = false;
+        }
+    }
+
+    ll result = 0;
+    vector<char> block(S);
+    for (int k = 0; k * S <= n; k++) {
+        fill(block.begin(), block.end(), true);
+        int start = k * S;
+        for (int p : primes) {
+            int start_idx = (start + p - 1) / p;
+            int j = max(start_idx, p) * p - start;
+            for (; j < S; j += p)
+                block[j] = false;
+        }
+        if (k == 0)
+            block[0] = block[1] = false;
+        for (int i = 0; i < S && start + i <= n; i++) {
+            if (block[i])
+                result++;
+        }
+    }
+    return result;
+}
+vector<char> segmentedSieve(long long L, long long R) {//For finding Primes between range L to R
+    // generate all primes up to sqrt(R)
+    long long lim = sqrt(R);
+    vector<char> mark(lim + 1, false);
+    vector<long long> primes;
+    for (long long i = 2; i <= lim; ++i) {
+        if (!mark[i]) {
+            primes.emplace_back(i);
+            for (long long j = i * i; j <= lim; j += i)
+                mark[j] = true;
+        }
+    }
+
+    vector<char> isPrime(R - L + 1, true);
+    for (long long i : primes)
+        for (long long j = max(i * i, (L + i - 1) / i * i); j <= R; j += i)
+            isPrime[j - L] = false;
+    if (L == 1)
+        isPrime[0] = false;
+    return isPrime;
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int main(){
     ios_base::sync_with_stdio(false);
