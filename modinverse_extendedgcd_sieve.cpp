@@ -59,7 +59,7 @@ vector<bool>Prime(N,1);						//calculates is_prime from 1 to N in O(Nlog(logN))
 vector<ll>lp(N),hp(N);
 vector<ll> prime_factors;
 vector<ll>divisors[N];
- 
+vector<ll> spf(N + 1, 1);//Gives the smallest Prime factor of a number 
 void sieve(ll N){ 
     Prime[0]=Prime[1]=false;
     for (ll p=2;p*p<=N;p++){
@@ -69,13 +69,26 @@ void sieve(ll N){
             }
         }
     }
+    spf[0]=0;
+    for (ll i=2;i<=N;i++) {
+        if(spf[i]==1){
+            for (ll j=i;j<=N;j+=i){
+                if (spf[j]==1)spf[j]=i;
+            }
+        }
+    }
     for(int i=2;i<=N;i++){        //Calculates divisors of all numbers from 1 to N in O(NlogN) (imp piece of code in reducing time complexity)
         for(int j=i;j<=N;j+=i){
             divisors[j].pb(i);
         }
     }
 }
-
+void primeFactorsSieve(ll n,map<ll,ll>&m){ //PS-Call sieve() in Main before calling this function 
+    while (n!=1){ 
+        m[spf[n]]++;
+		n/=spf[n]; 
+	} 
+}
 //PS-The below 2 functions are copied from cp-algorithms.com ,Never tested in a contest yet.
 ll blocksieveing(ll n) {//count no of primes till n in same complexity as SIEVE but space shortened to O(sqrt(n)+S)=O(sqrt(n)+1e4)
     const ll S = 10000;
