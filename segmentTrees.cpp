@@ -4,17 +4,17 @@ using namespace std;
 ll reportMin(ll i,ll j,vector<ll>&A,ll n){
     i+=n-1;
     j+=n-1;
-    ll min=A[i];
+    ll ans=A[i];
     if(j>i){
-        if(A[j]<min)min=A[j];
+        ans=min(ans,A[j]);
         while(floor((i-1)*1.0/2)!=floor((j-1)*1.0/2)){
-            if(i%2==1 && A[i+1]<min)min=A[i+1];//A[i] is the left child
-            if(j%2==0 && A[j-1]<min)min=A[j-1];//A[j] is the right child
+            if(i%2==1)ans=min(ans,A[i+1]);//A[i] is the left child
+            if(j%2==0)ans=min(ans,A[j-1]);//A[j] is the right child
             i=floor((i-1)*1.0/2);//move upwards towards parents
             j=floor((j-1)*1.0/2);
         }
     }
-    return min;
+    return ans;
 }
 ll dynamicSum(ll i,ll j,vector<ll>&A,ll n){
     i+=n-1;
