@@ -35,7 +35,7 @@ int main(){
     }
     //PS-Here nodes are labelled from 1 to N ,not from 0 to N-1 
     vector<ll>visited(n+1);vector<ll>in(n+1);vector<ll>low(n+1);vector<ll>parent(n+1);vector<pair<ll,ll>>bridges;
-    for(ll i=1;i<=n;i++)if(!visited[i])dfs(adjlist,visited,parent,1,bridges,in,low);
+    for(ll i=1;i<=n;i++)if(!visited[i])dfs(adjlist,visited,parent,i,bridges,in,low);
     sort(bridges.begin(),bridges.end());
     cout<<bridges.size()<<endl;
     for(auto x:bridges){
