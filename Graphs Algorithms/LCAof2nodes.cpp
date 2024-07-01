@@ -21,7 +21,6 @@ void bfs(vector<vector<ll>>&adjlist,vector<ll>&visited,ll start,vector<ll>&dist,
             }
         }
     }
-
 }
 ll findLCA(vector<vector<ll>>&lca,vector<ll>&dist,ll node1,ll node2,ll maxN){
     if(dist[node1]>dist[node2])swap(node1,node2);
@@ -33,7 +32,6 @@ ll findLCA(vector<vector<ll>>&lca,vector<ll>&dist,ll node1,ll node2,ll maxN){
     }
     if(node1==node2)return node1;
     //after this level of node1 and node2 is same
-
     for(ll i=maxN;i>=0;i--){
         if(lca[node1][i]!=-1 && lca[node1][i]!=lca[node2][i]){
             // cout<<i<<endl;
@@ -42,7 +40,6 @@ ll findLCA(vector<vector<ll>>&lca,vector<ll>&dist,ll node1,ll node2,ll maxN){
         }
     }
     return lca[node1][0];
-
 }
 ll finddist(vector<vector<ll>>&lca,vector<ll>&dist,ll node1,ll node2,ll maxN){
     //tells dist between any 2 nodes in trees
@@ -62,7 +59,7 @@ int main(){
     bfs(adjlist,visited,1,dist,parent);
     ll maxN=Log(n);
     vector<vector<ll>>lca(n+1,vector<ll>(maxN+1,-1));
-    //lca[i][j] ->2^j th parent of i th node 
+    //lca[i][j] ->2^j th ancestor of i th node 
     for(ll i=1;i<=n;i++){
         lca[i][0]=parent[i];
     }
@@ -73,6 +70,7 @@ int main(){
             if(lca[i][j-1]!=-1)lca[i][j]=lca[lca[i][j-1]][j-1];
         }
     }
+    //lca matrix doesnt tell the LCA of 2 nodes ,it tells the 2^jth ancestor of ith node
     ll q;cin>>q;
     for(ll i=0;i<q;i++){
         ll a,b;cin>>a>>b;
