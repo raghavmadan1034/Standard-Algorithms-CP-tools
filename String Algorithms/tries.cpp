@@ -77,6 +77,10 @@ class Trie{
         Node*node=root;
         for(ll i=0;i<s.length();i++){
             if(node->containsKey(s[i])){
+                if(node->get(s[i])->cntPrefix==1){
+                    node->put(s[i],NULL);
+                    return;
+                }
                 node=node->get(s[i]);
                 node->cntPrefix--;
             }
