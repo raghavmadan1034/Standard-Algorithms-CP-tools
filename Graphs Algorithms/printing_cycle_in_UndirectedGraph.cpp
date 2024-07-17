@@ -18,8 +18,8 @@ bool dfs(vector<vector<ll>>&adjlist,vector<ll>&visited,ll start,vector<ll>&paren
     }
     list.pop_back();//dead end aa gya ,and ab backtrack karenge so remove the unnessary nodes
     //so that they dont interfere with the cycle .Eg- 3 ke saath ek cycle thi and ek branch 
-    //so branch pe dfs karte gye and then cycle pe ayenge toh mix ho jayega
-    //So remove nodes while backtracking 
+    //so branch pe dfs karte gye and then cycle pe ayenge toh mix ho jayega eg- cycle of 3,4,5 and 5 attached with 6
+    //So remove nodes while backtracking (note-agar cylce ho rhi hai toh vo directly return kar rha hai,pop nhi kar rha fir)
     return 0;
 }
 int main(){
