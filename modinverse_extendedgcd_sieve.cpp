@@ -10,6 +10,16 @@ bool is_square(float x){
     }
     return false;
 }
+ll gcd(ll a, ll b){
+    if (a == 0) return b;
+    return gcd(b % a, a);
+}
+bool isprime(ll x){
+    for(ll i=2;i*i<=x;i++){
+        if(x%i==0)return false;
+    }
+    return true;
+}
 ll extended_gcd(ll a, ll b, ll &x, ll &y){  //ax + by = gcd(a,b)
     //this algorithm finds a way to represent gcd(a,b) in form of equation -ax+by=gcd(a,b)
     //finds x and y for them 
@@ -46,7 +56,7 @@ ll exp(ll x,ll y,ll p){//x^y %p ,returns exponent of x^y with mod p
 }
 ll modInverse(ll a,ll modulo){
     //for modInverse to exist gcd(a,modulo)=1 ,dw generally modulo is prime (1e9+7)
-    return exp(a,modulo-2,modulo);//only if modulo is a prime number
+    if(isprime(modulo))return exp(a,modulo-2,modulo);//only if modulo is a prime number
     //if modulo is NOT prime
     ll x, y;
     ll g=extended_gcd(a,modulo,x,y);
