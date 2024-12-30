@@ -3,6 +3,21 @@ using namespace std;
 #define ll long long 
 #define pb push_back
 ll mod=1e9+7;
+ll floor_custom(ll a,ll b){
+    if((a>=0 && b>0)||(a<=0 && b<0))return a/b;
+    else{
+        if(a%b){
+            return a/b-1;
+        }
+        else return a/b;
+    }
+}
+ll ceil_custom(ll a,ll b){//ceil a/b
+    if(a%b){
+        return floor_custom(a,b)+1;
+    }
+    else return a/b;
+}
 bool is_square(float x){
     if(x>= 0){
         ll sr = sqrt(x);
