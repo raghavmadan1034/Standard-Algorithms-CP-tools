@@ -81,12 +81,14 @@ ll modInverse(ll a,ll modulo){
 }
 const ll N=2e5+5;
 ////////////////////////////////////////Seive Algorithm////////////////////////////////////////////////////////////////////////
-vector<bool>Prime(N,1);						//calculates is_prime from 1 to N in O(Nlog(logN))
+bitset<N>Prime;						//calculates is_prime from 1 to N in O(Nlog(logN))
+
 vector<ll>lp(N),hp(N);
 vector<ll> prime_factors;
 vector<ll>divisors[N];
 vector<ll> spf(N + 1, 1);//Gives the smallest Prime factor of a number 
 void sieve(ll N){ 
+    for(ll i=0;i<N;i++)Prime[i]=1;
     Prime[0]=Prime[1]=false;
     for (ll p=2;p*p<=N;p++){
         if (Prime[p]) {
@@ -115,7 +117,30 @@ void primeFactorsSieve(ll n,map<ll,ll>&m){ //PS-Call sieve() in Main before call
 		n/=spf[n]; 
 	} 
 }
-//PS-The below 2 functions are copied from cp-algorithms.com ,Never tested in a contest yet.
+void generate_primelist(vector<ll>&primelist){
+    for(ll i=0;i<=N;i++)if(Prime[i])primelist.push_back(i);
+}
+vector<bool> segmentedSieve(ll l, ll r) {//For finding Primes between range L to R
+    //iterate prime numbers from 0->sqrt(r)
+    sieve(N);
+    vector<ll>primelist;
+    generate_primelist(primelist);
+    vector<bool>P(r-l+1,1);
+    for(ll i=0;primelist[i]*primelist[i]<=r;i++){
+        //find first non prime in range l to r which is multiple of primelist[i] and mark it as 0
+        ll start=(l/primelist[i])*primelist[i];
+        if(start<l)start+=primelist[i];
+        for(ll j=start;j<=r;j+=primelist[i])P[j-l]=0;
+        if(start==primelist[i])P[start-l]=1;//remark it as prime coz start hi prime number nikla
+
+    }
+    //note- P is shifted by l
+    //to check if P[i] is prime or not i=[l,r] , check P[i-l] is 0 or 1 (0=not prime,1=prime)
+    return P; 
+
+}
+
+//PS-The below  function is copied from cp-algorithms.com ,Never tested in a contest yet.
 ll blocksieveing(ll n) {//count no of primes till n in same complexity as SIEVE but space shortened to O(sqrt(n)+S)=O(sqrt(n)+1e4)
     const ll S = 10000;
 
@@ -150,27 +175,7 @@ ll blocksieveing(ll n) {//count no of primes till n in same complexity as SIEVE 
     }
     return result;
 }
-vector<char> segmentedSieve(long long L, long long R) {//For finding Primes between range L to R
-    // generate all primes up to sqrt(R)
-    long long lim = sqrt(R);
-    vector<char> mark(lim + 1, false);
-    vector<long long> primes;
-    for (long long i = 2; i <= lim; ++i) {
-        if (!mark[i]) {
-            primes.emplace_back(i);
-            for (long long j = i * i; j <= lim; j += i)
-                mark[j] = true;
-        }
-    }
 
-    vector<char> isPrime(R - L + 1, true);
-    for (long long i : primes)
-        for (long long j = max(i * i, (L + i - 1) / i * i); j <= R; j += i)
-            isPrime[j - L] = false;
-    if (L == 1)
-        isPrime[0] = false;
-    return isPrime;
-}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int main(){
     ios_base::sync_with_stdio(false);
