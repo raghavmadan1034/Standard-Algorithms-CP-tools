@@ -70,10 +70,11 @@ pair<ll,vector<pair<ll,ll>>> CPdist(vector<pair<ll,ll>>&P){
         for(auto x:P){
             if(x.first<pmed)Pl.push_back(x);
             else if(x.first>pmed)Pr.push_back(x);
-            else{
-                if(Pl.size()<=Pr.size())Pl.push_back(x);
-                else Pr.push_back(x);
-            }
+        }
+        for(auto x:P){
+            if(x.first!=pmed)continue;
+            if(Pl.size()<=Pr.size())Pl.push_back(x);
+            else Pr.push_back(x);
         }
         pair<ll,vector<pair<ll,ll>>>t1=CPdist(Pl);
         double del_l=sqrt(t1.first);
