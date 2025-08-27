@@ -72,7 +72,7 @@ int main(){
         }
     }
     cout<<ans<<endl;
-    cout<<start.first+1<<" "<<start.second+1<<" "<<end.first+1<<" "<<end.second+1<<endl;
+    cout<<start.first+1<<" "<<start.second+1<<" "<<end.first+1<<" "<<end.second+1<<endl;  //1 indexed top left and bottom right corner of rectangle 
     
     return 0;
 }
